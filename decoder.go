@@ -1,11 +1,13 @@
 package sbs1
 
+import "time"
+
 const (
 	// MessageTypeSelectionChange is am message generated when the user changes the selected aircraft in
 	// BaseStation.
 	MessageTypeSelectionChange = "SEL"
 
-	// MessageTypeNewId is a message generated when an aircraft being tracked sets or changes its
+	// MessageTypeNewID is a message generated when an aircraft being tracked sets or changes its
 	// callsign.
 	MessageTypeNewID = "ID"
 
@@ -31,5 +33,50 @@ const (
 	// TransmissionTypeESSurfacePosition is a "ES surface position message", spec "DF17 BDS 0,6" transmission
 	TransmissionTypeESSurfacePosition = 2
 
+	// TransmissionTypeESAirbornPosition is a "ES airborne position message", spec "DF17 BDS 0,5" transmission
 	TransmissionTypeESAirbornPosition = 3
+
+	// TransmissionTypeESAirbornVelocity is a "ES airborne velocity message", spec "DF17 BDS 0,9" transmission
+	TransmissionTypeESAirbornVelocity = 4
+
+	// TransmissionTypeSurveillanceAlt is a "Surveillance alt message", spec "DF4, DF20" transmission
+	TransmissionTypeSurveillanceAlt = 5
+
+	// TransmissionTypeSurveillanceID is a "Surveillance ID message", spec "DF5, DF21" transmission
+	TransmissionTypeSurveillanceID = 6
+
+	// TransmissionTypeAirToAir is a  "Air-to-air message", spec "DF16" transmission
+	TransmissionTypeAirToAir = 7
+
+	// TransmissionTypeAllCallReply is a "All call reply", spec "DF11"
+	TransmissionTypeAllCallReply = 8
 )
+
+type SBS1Message struct {
+	MessageType   string
+	AircraftID    int
+	HexIdent      int64
+	FlightID      string
+	GeneratedTime time.Time
+	LoggedTime    time.Time
+	CallSign      string
+	Altitude      int
+	GroundSpeed   int
+	Track         string
+	Latitude      float32
+	Longitude     float32
+	VerticalRate  int
+	Squeak        string
+	Alert         string
+	Emergency     string
+	SPI           string
+	IsOnGround    bool
+}
+
+func sbsToBool(val string) bool {
+	if val != "0" {
+		return true
+	} else {
+		return false
+	}
+}
